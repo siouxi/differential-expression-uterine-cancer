@@ -1283,5 +1283,598 @@ cat("    * all_DEGs.tsv: Tabla completa de todos los DEGs\n")
 cat("    * up_genes.txt: Lista de genes up-regulated\n")
 cat("    * down_genes.txt: Lista de genes down-regulated\n")
 cat("    * all_results.tsv: Todos los resultados del análisis\n")
-cat("    * DEGs_summary.csv: Resumen estadístico del análisis\n\n")
+cat("    * DEGs_summary.csv: Resumen estadístico del análisis\n")
+cat("  - GSE57978_analysis_summary.html: Reporte HTML completo con resumen de QC y DEGs\n\n")
+
+# ==============================================================================
+# 10. Generar Reporte HTML de Resumen
+# ==============================================================================
+cat("\n", rep("=", 70), "\n")
+cat("GENERANDO REPORTE HTML DE RESUMEN\n")
+cat(rep("=", 70), "\n\n")
+
+cat("10. Creando reporte HTML...\n")
+
+# Cargar datos necesarios para el reporte
+cat("  Cargando datos para el reporte...\n")
+
+# Cargar QC metrics
+qc_metrics_file <- file.path(qc_dir, "QC_metrics_summary.csv")
+if (file.exists(qc_metrics_file)) {
+    qc_metrics_report <- read.csv(qc_metrics_file, stringsAsFactors = FALSE)
+} else {
+    qc_metrics_report <- qc_metrics
+}
+
+# Cargar DEGs summary
+degs_summary_file <- file.path(degs_dir, "DEGs_summary.csv")
+if (file.exists(degs_summary_file)) {
+    degs_summary_report <- read.csv(degs_summary_file, stringsAsFactors = FALSE)
+} else {
+    degs_summary_report <- summary_stats
+}
+
+# Cargar sample info
+sample_info_file <- file.path(degs_dir, "sample_info.csv")
+if (file.exists(sample_info_file)) {
+    sample_info_report <- read.csv(sample_info_file, stringsAsFactors = FALSE)
+} else {
+    sample_info_report <- sample_info
+}
+
+# Cargar DEGs
+degs_file <- file.path(degs_dir, "all_DEGs.tsv")
+if (file.exists(degs_file)) {
+    degs_report <- read.table(degs_file, sep = "\t", header = TRUE, stringsAsFactors = FALSE)
+} else {
+    degs_report <- degs
+}
+
+# Cargar up y down genes
+up_genes_file <- file.path(degs_dir, "up_genes_complete.tsv")
+down_genes_file <- file.path(degs_dir, "down_genes_complete.tsv")
+
+if (file.exists(up_genes_file)) {
+    up_genes_report <- read.table(up_genes_file, sep = "\t", header = TRUE, stringsAsFactors = FALSE)
+} else {
+    up_genes_report <- up_genes
+}
+
+if (file.exists(down_genes_file)) {
+    down_genes_report <- read.table(down_genes_file, sep = "\t", header = TRUE, stringsAsFactors = FALSE)
+} else {
+    down_genes_report <- down_genes
+}
+
+# Cargar filtering summary
+filtering_summary_file <- file.path(output_dir, "GSE57978_filtering_summary.csv")
+if (file.exists(filtering_summary_file)) {
+    filtering_summary_report <- read.csv(filtering_summary_file, stringsAsFactors = FALSE)
+} else {
+    filtering_summary_report <- filtering_summary
+}
+
+cat("  ✓ Datos cargados\n")
+cat("  Generando contenido HTML...\n")
+
+# Iniciar HTML
+html_content <- paste0('<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resumen de Análisis - GSE57978</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            padding: 40px;
+        }
+        
+        h1 {
+            color: #667eea;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 15px;
+        }
+        
+        h2 {
+            color: #764ba2;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+            border-left: 5px solid #764ba2;
+            padding-left: 15px;
+        }
+        
+        h3 {
+            color: #555;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-size: 1.4em;
+        }
+        
+        h4 {
+            color: #666;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+        
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .info-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        
+        .info-box:hover {
+            transform: translateY(-5px);
+        }
+        
+        .metric-label {
+            font-size: 0.9em;
+            opacity: 0.9;
+            margin-bottom: 10px;
+        }
+        
+        .metric-value {
+            font-size: 2em;
+            font-weight: bold;
+        }
+        
+        .metric-box {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: bold;
+        }
+        
+        td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+        
+        tr:hover {
+            background: #e9ecef;
+        }
+        
+        .link-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+        
+        .link-button:hover {
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        
+        .timestamp {
+            background: #e9ecef;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 40px;
+            text-align: center;
+            color: #666;
+        }
+        
+        .section {
+            margin: 30px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        ul {
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+        
+        li {
+            margin: 5px 0;
+        }
+        
+        .warning {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+        
+        .success {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📊 Resumen de Análisis - GSE57978</h1>
+        <div class="metric-box">
+            <p><strong>Dataset:</strong> GSE57978</p>
+            <p><strong>Plataforma:</strong> Affymetrix Human Gene 1.0 ST Array</p>
+            <p><strong>Comparación:</strong> CBD vs Vehicle</p>
+            <p><strong>Fecha de análisis:</strong> ', Sys.Date(), '</p>
+        </div>')
+
+# Sección de información de muestras
+if (!is.null(sample_info_report) && nrow(sample_info_report) > 0) {
+    html_content <- paste0(html_content, '
+        <h2>🧬 Información de Muestras</h2>
+        <div class="section">
+            <p><strong>Total de muestras:</strong> ', nrow(sample_info_report), '</p>
+            <table>
+                <tr>
+                    <th>Muestra</th>
+                    <th>GSM ID</th>
+                    <th>Línea Celular</th>
+                    <th>Tratamiento</th>
+                </tr>')
+    
+    for (i in 1:nrow(sample_info_report)) {
+        html_content <- paste0(html_content, '<tr>
+            <td>', sample_info_report$Sample[i], '</td>
+            <td>', sample_info_report$GSM_ID[i], '</td>
+            <td>', sample_info_report$Cell_Line[i], '</td>
+            <td>', sample_info_report$Treatment[i], '</td>
+        </tr>')
+    }
+    
+    html_content <- paste0(html_content, '</table>
+        </div>')
+}
+
+# Sección de QC
+html_content <- paste0(html_content, '
+        <h2>🔍 Análisis de Calidad (QC)</h2>')
+
+if (!is.null(qc_metrics_report) && nrow(qc_metrics_report) > 0) {
+    html_content <- paste0(html_content, '
+        <div class="summary-grid">
+            <div class="info-box">
+                <div class="metric-label">Mediana de Intensidad (Log2)</div>
+                <div class="metric-value">', round(mean(qc_metrics_report$Median_Intensity, na.rm = TRUE), 2), '</div>
+            </div>
+            <div class="info-box">
+                <div class="metric-label">Media de Intensidad (Log2)</div>
+                <div class="metric-value">', round(mean(qc_metrics_report$Mean_Intensity, na.rm = TRUE), 2), '</div>
+            </div>
+            <div class="info-box">
+                <div class="metric-label">Desviación Estándar Promedio</div>
+                <div class="metric-value">', round(mean(qc_metrics_report$SD_Intensity, na.rm = TRUE), 2), '</div>
+            </div>
+            <div class="info-box">
+                <div class="metric-label">IQR Promedio</div>
+                <div class="metric-value">', round(mean(qc_metrics_report$IQR_Intensity, na.rm = TRUE), 2), '</div>
+            </div>
+        </div>
+        
+        <h3>Métricas por Muestra</h3>
+        <table>
+            <tr>
+                <th>Muestra</th>
+                <th>Tratamiento</th>
+                <th>Mediana Intensidad</th>
+                <th>Media Intensidad</th>
+                <th>SD</th>
+                <th>IQR</th>
+            </tr>')
+    
+    for (i in 1:nrow(qc_metrics_report)) {
+        html_content <- paste0(html_content, '<tr>
+            <td>', substr(qc_metrics_report$Sample[i], 1, 50), ifelse(nchar(qc_metrics_report$Sample[i]) > 50, "...", ""), '</td>
+            <td>', qc_metrics_report$Treatment[i], '</td>
+            <td>', round(qc_metrics_report$Median_Intensity[i], 3), '</td>
+            <td>', round(qc_metrics_report$Mean_Intensity[i], 3), '</td>
+            <td>', round(qc_metrics_report$SD_Intensity[i], 3), '</td>
+            <td>', round(qc_metrics_report$IQR_Intensity[i], 3), '</td>
+        </tr>')
+    }
+    
+    html_content <- paste0(html_content, '</table>')
+}
+
+html_content <- paste0(html_content, '
+        <h3>Gráficos de QC</h3>
+        <p>
+            <a href="QC/01_histogram_intensities.png" class="link-button" target="_blank">📊 Histogramas de Intensidades</a>
+            <a href="QC/02_boxplot_intensities.png" class="link-button" target="_blank">📦 Boxplots</a>
+            <a href="QC/03_MAplots.png" class="link-button" target="_blank">📈 MA-plots</a>
+            <a href="QC/04_PCA.png" class="link-button" target="_blank">🔬 Análisis PCA</a>
+            <a href="QC/05_clustering_hierarchical.png" class="link-button" target="_blank">🌳 Clustering Jerárquico</a>
+            <a href="QC/06_heatmap_correlation.png" class="link-button" target="_blank">🔥 Heatmap Correlación</a>
+        </p>
+        <p>
+            <a href="QC/QC_metrics_summary.csv" class="link-button">📥 Descargar Métricas CSV</a>
+            <a href="QC/arrayQualityMetrics/index.html" class="link-button" target="_blank">📋 Reporte arrayQualityMetrics</a>
+        </p>')
+
+# Sección de filtrado
+if (!is.null(filtering_summary_report) && nrow(filtering_summary_report) > 0) {
+    html_content <- paste0(html_content, '
+        <h2>🔬 Filtrado de Genes</h2>
+        <div class="section">
+            <table>
+                <tr>
+                    <th>Criterio</th>
+                    <th>Número</th>
+                    <th>Porcentaje</th>
+                </tr>')
+    
+    for (i in 1:nrow(filtering_summary_report)) {
+        html_content <- paste0(html_content, '<tr>
+            <td>', filtering_summary_report$Criterio[i], '</td>
+            <td>', filtering_summary_report$Numero[i], '</td>
+            <td>', filtering_summary_report$Porcentaje[i], '%</td>
+        </tr>')
+    }
+    
+    html_content <- paste0(html_content, '</table>
+        </div>')
+}
+
+# Sección de DEGs
+html_content <- paste0(html_content, '
+        <h2>📈 Análisis de Expresión Diferencial (DEGs)</h2>')
+
+if (!is.null(degs_summary_report) && nrow(degs_summary_report) > 0) {
+    total_genes <- degs_summary_report$Numero[degs_summary_report$Categoria == "Total genes analizados"]
+    total_degs <- degs_summary_report$Numero[degs_summary_report$Categoria == "DEGs totales"]
+    up_degs <- degs_summary_report$Numero[degs_summary_report$Categoria == "Up-regulated (CBD > Vehicle)"]
+    down_degs <- degs_summary_report$Numero[degs_summary_report$Categoria == "Down-regulated (CBD < Vehicle)"]
+    
+    html_content <- paste0(html_content, '
+        <div class="summary-grid">
+            <div class="info-box">
+                <div class="metric-label">Total Genes Analizados</div>
+                <div class="metric-value">', total_genes, '</div>
+            </div>
+            <div class="info-box">
+                <div class="metric-label">Total DEGs</div>
+                <div class="metric-value">', total_degs, '</div>
+            </div>
+            <div class="info-box">
+                <div class="metric-label">Up-regulated</div>
+                <div class="metric-value">', up_degs, '</div>
+            </div>
+            <div class="info-box">
+                <div class="metric-label">Down-regulated</div>
+                <div class="metric-value">', down_degs, '</div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <table>
+                <tr>
+                    <th>Categoría</th>
+                    <th>Número</th>
+                    <th>Porcentaje</th>
+                </tr>')
+    
+    for (i in 1:nrow(degs_summary_report)) {
+        html_content <- paste0(html_content, '<tr>
+            <td>', degs_summary_report$Categoria[i], '</td>
+            <td>', degs_summary_report$Numero[i], '</td>
+            <td>', degs_summary_report$Porcentaje[i], '%</td>
+        </tr>')
+    }
+    
+    html_content <- paste0(html_content, '</table>
+        </div>')
+}
+
+html_content <- paste0(html_content, '
+        <h3>Gráficos de DEGs</h3>
+        <p>
+            <a href="DEGs/volcano_plot.png" class="link-button" target="_blank">🌋 Volcano Plot</a>
+            <a href="DEGs/MA_plot.png" class="link-button" target="_blank">📊 MA-plot</a>')
+
+if (!is.null(degs_report) && nrow(degs_report) > 0) {
+    html_content <- paste0(html_content, '
+            <a href="DEGs/heatmap_top_genes.png" class="link-button" target="_blank">🔥 Heatmap Top Genes</a>')
+}
+
+html_content <- paste0(html_content, '
+        </p>')
+
+# Mostrar top DEGs
+if (!is.null(degs_report) && nrow(degs_report) > 0) {
+    # Ordenar por adj.P.Val
+    degs_sorted <- degs_report[order(degs_report$adj.P.Val), ]
+    n_top <- min(20, nrow(degs_sorted))
+    top_degs <- degs_sorted[1:n_top, ]
+    
+    html_content <- paste0(html_content, '
+        <h3>Top ', n_top, ' DEGs (por FDR)</h3>
+        <div class="section">
+            <table>
+                <tr>
+                    <th>Gen</th>
+                    <th>ENTREZ ID</th>
+                    <th>Log2 FC</th>
+                    <th>P-value</th>
+                    <th>FDR (adj.P.Val)</th>
+                    <th>Regulación</th>
+                </tr>')
+    
+    for (i in 1:nrow(top_degs)) {
+        regulation <- ifelse(top_degs$logFC[i] > 0, "Up", "Down")
+        regulation_color <- ifelse(regulation == "Up", "#28a745", "#dc3545")
+        
+        symbol_col <- ifelse("SYMBOL" %in% colnames(top_degs), top_degs$SYMBOL[i], 
+                            ifelse("GeneID" %in% colnames(top_degs), top_degs$GeneID[i], "N/A"))
+        entrez_col <- ifelse("ENTREZID" %in% colnames(top_degs), top_degs$ENTREZID[i], "N/A")
+        
+        html_content <- paste0(html_content, '<tr>
+            <td><strong>', symbol_col, '</strong></td>
+            <td>', entrez_col, '</td>
+            <td>', round(top_degs$logFC[i], 3), '</td>
+            <td>', format(top_degs$P.Value[i], scientific = TRUE, digits = 3), '</td>
+            <td>', format(top_degs$adj.P.Val[i], scientific = TRUE, digits = 3), '</td>
+            <td style="color: ', regulation_color, '; font-weight: bold;">', regulation, '</td>
+        </tr>')
+    }
+    
+    html_content <- paste0(html_content, '</table>
+        </div>')
+    
+    # Separar up y down
+    if (!is.null(up_genes_report) && nrow(up_genes_report) > 0) {
+        html_content <- paste0(html_content, '
+        <h3>Genes Up-regulated (CBD > Vehicle)</h3>
+        <div class="success">
+            <p><strong>Total:</strong> ', nrow(up_genes_report), ' genes</p>
+        </div>')
+    }
+    
+    if (!is.null(down_genes_report) && nrow(down_genes_report) > 0) {
+        html_content <- paste0(html_content, '
+        <h3>Genes Down-regulated (CBD < Vehicle)</h3>
+        <div class="success">
+            <p><strong>Total:</strong> ', nrow(down_genes_report), ' genes</p>
+        </div>')
+    }
+} else {
+    html_content <- paste0(html_content, '
+        <div class="warning">
+            <p><strong>⚠️ Nota:</strong> No se encontraron DEGs con los umbrales seleccionados.</p>
+            <p>Revisa los archivos de resultados completos para más detalles.</p>
+        </div>')
+}
+
+html_content <- paste0(html_content, '
+        <h3>Archivos de Resultados</h3>
+        <p>
+            <a href="DEGs/all_results.tsv" class="link-button">📄 Todos los Resultados (TSV)</a>
+            <a href="DEGs/all_DEGs.tsv" class="link-button">📄 Todos los DEGs (TSV)</a>')
+
+if (!is.null(up_genes_report) && nrow(up_genes_report) > 0) {
+    html_content <- paste0(html_content, '
+            <a href="DEGs/up_genes.txt" class="link-button">📄 Genes Up-regulated</a>
+            <a href="DEGs/up_genes_complete.tsv" class="link-button">📄 Up-regulated Completo (TSV)</a>')
+}
+
+if (!is.null(down_genes_report) && nrow(down_genes_report) > 0) {
+    html_content <- paste0(html_content, '
+            <a href="DEGs/down_genes.txt" class="link-button">📄 Genes Down-regulated</a>
+            <a href="DEGs/down_genes_complete.tsv" class="link-button">📄 Down-regulated Completo (TSV)</a>')
+}
+
+html_content <- paste0(html_content, '
+        </p>')
+
+# Sección de archivos generados
+html_content <- paste0(html_content, '
+        <h2>📁 Archivos Generados</h2>
+        <div class="section">
+            <h3>Estructura de Directorios</h3>
+            <ul>
+                <li><strong>QC/</strong> - Análisis de calidad y gráficos
+                    <ul>
+                        <li>Histogramas, boxplots, MA-plots</li>
+                        <li>Análisis PCA y clustering</li>
+                        <li>Heatmaps de correlación</li>
+                        <li>Reporte arrayQualityMetrics</li>
+                    </ul>
+                </li>
+                <li><strong>DEGs/</strong> - Resultados de expresión diferencial
+                    <ul>
+                        <li>Volcano plot, MA-plot, Heatmaps</li>
+                        <li>Tablas de DEGs (TSV)</li>
+                        <li>Listas de genes up/down-regulated</li>
+                        <li>Resultados completos del análisis</li>
+                    </ul>
+                </li>
+                <li><strong>Archivos RData/</strong> - Objetos R guardados
+                    <ul>
+                        <li>Datos crudos y normalizados</li>
+                        <li>Objetos de QC y DEGs</li>
+                        <li>Phenodata y anotaciones</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>')
+
+# Cerrar HTML
+html_content <- paste0(html_content, '
+        <div class="timestamp">
+            <p><strong>✅ Análisis completado exitosamente</strong></p>
+            <p>Fecha: ', Sys.Date(), ' | Hora: ', format(Sys.time(), "%H:%M:%S"), '</p>
+            <p>Para más detalles, consulta los archivos en los directorios correspondientes.</p>
+        </div>
+    </div>
+</body>
+</html>')
+
+# Guardar HTML
+html_file <- file.path(output_dir, "GSE57978_analysis_summary.html")
+writeLines(html_content, html_file, useBytes = TRUE)
+cat("  ✓ Reporte HTML guardado: GSE57978_analysis_summary.html\n")
+cat("  📍 Ubicación:", html_file, "\n")
+cat("  🌐 Abre el archivo en tu navegador para ver el resumen completo\n\n")
+
+cat(rep("=", 70), "\n")
+cat("REPORTE HTML GENERADO EXITOSAMENTE\n")
+cat(rep("=", 70), "\n\n")
 
