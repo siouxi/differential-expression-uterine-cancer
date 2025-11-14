@@ -4,9 +4,9 @@ BiocManager::install("GEOquery")
 
 library(GEOquery)
 
-gse_id <- "GSE285498"
+gse_id <- "GSE57978"
 
-dest_dir <- file.path("DATA", gse_id)
+dest_dir <- file.path("differential-expression-uterine-cancer/DATA", gse_id)
 
 gse <- getGEO(gse_id, GSEMatrix = TRUE, getGPL = FALSE, destdir = dest_dir)
 
@@ -16,4 +16,4 @@ gse_data <- gse[[1]]
 # Guardar metadata de muestras
 pheno <- pData(gse_data)
 pheno_file <- file.path(dest_dir, paste0(gse_id, "_pheno_data.csv"))
-write.csv(pheno, file = "xd.csv", row.names = FALSE)
+write.csv(pheno, file = pheno_file, row.names = FALSE)
