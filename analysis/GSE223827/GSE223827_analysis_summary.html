@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resumen del Análisis - GSE223827</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 3px solid #e74c3c;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #34495e;
+            margin-top: 30px;
+            border-left: 4px solid #e74c3c;
+            padding-left: 10px;
+        }
+        h3 {
+            color: #555;
+            margin-top: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #e74c3c;
+            color: white;
+            font-weight: bold;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #ffe8e8;
+        }
+        .metric-box {
+            background-color: #ecf0f1;
+            border-left: 4px solid #e74c3c;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+        .metric-label {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        .metric-value {
+            font-size: 1.2em;
+            color: #27ae60;
+            margin-top: 5px;
+        }
+        .comparison-section {
+            background-color: #f8f9fa;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+            border: 1px solid #dee2e6;
+        }
+        .link-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #e74c3c;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 5px;
+        }
+        .link-button:hover {
+            background-color: #c0392b;
+        }
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .info-box {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        .timestamp {
+            color: #7f8c8d;
+            font-style: italic;
+            margin-top: 30px;
+        }
+        .highlight-box {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📊 Resumen del Análisis - GSE223827</h1>
+        
+        <div class="highlight-box">
+            <strong>Estudio:</strong> Cannabis exposure disrupts the endocannabinoid system in fetal testis<br>
+            <strong>Contexto:</strong> Análisis BRB-seq (3'-end, UMI) de testículos fetales humanos expuestos a CBD/THC<br>
+            <strong>Tipo de datos:</strong> BRB-seq (3'-end sequencing con UMI deduplication)
+        </div>
+        
+        <div class="timestamp">
+            Generado el: 2025-11-14 08:05:41.819591
+        </div>
+        
+        <h2>📋 Información del Dataset</h2>
+        <div class="summary-grid">
+            <div class="info-box">
+                <div class="metric-label">Dataset</div>
+                <div class="metric-value">GSE223827</div>
+            </div>
+            <div class="info-box">
+                <div class="metric-label">Tipo de Datos</div>
+                <div class="metric-value">BRB-seq (UMI counts)</div>
+            </div>
+            <div class="info-box">
+                <div class="metric-label">Total de Muestras</div>
+                <div class="metric-value">116</div>
+            </div>
+            <div class="info-box">
+                <div class="metric-label">Total de Genes</div>
+                <div class="metric-value">9978</div>
+            </div>
+        </div>
+        
+        <h2>🧪 Información de Muestras</h2>
+        <div class="metric-box">
+            <div class="metric-label">Condiciones:</div>
+            <div class="metric-value">Control, EtOH, DMSO-EtOH, CBD, THC, CBD-THC</div>
+        </div>
+        <div class="metric-box">
+            <div class="metric-label">Grupos de Edad:</div>
+            <div class="metric-value">10-12GW, 12-14GW</div>
+        </div>
+        <div class="metric-box">
+            <div class="metric-label">Donantes Únicos:</div>
+            <div class="metric-value">25</div>
+        </div>
+        <h3>Tabla de Muestras</h3>
+        <table>
+            <tr>
+                <th>Muestra</th>
+                <th>Condición</th>
+                <th>Edad</th>
+                <th>Donante</th>
+                <th>Total UMIs</th>
+                <th>Genes Detectados</th>
+            </tr><tr>
+        <td>testis_10-12GW_CBD-THC_EH3417</td>
+        <td>CBD-THC</td>
+        <td>10-12GW</td>
+        <td>EH3417</td>
+        <td>615850</td>
+        <td>9751</td>
+    </tr><tr>
+        <td>testis_10-12GW_CBD-THC_EH4072</td>
+        <td>CBD-THC</td>
+        <td>10-12GW</td>
+        <td>EH4072</td>
+        <td>132102</td>
+        <td>7619</td>
+    </tr><tr>
+        <td>testis_10-12GW_CBD-THC_EH4080</td>
+        <td>CBD-THC</td>
+        <td>10-12GW</td>
+        <td>EH4080</td>
+        <td>203049</td>
+        <td>7441</td>
+    </tr><tr>
+        <td>testis_10-12GW_CBD-THC_EH4105</td>
+        <td>CBD-THC</td>
+        <td>10-12GW</td>
+        <td>EH4105</td>
+        <td>147139</td>
+        <td>7123</td>
+    </tr><tr>
+        <td>testis_10-12GW_CBD-THC_EH4111</td>
+        <td>CBD-THC</td>
+        <td>10-12GW</td>
+        <td>EH4111</td>
+        <td>168602</td>
+        <td>7423</td>
+    </tr><tr>
+        <td>testis_10-12GW_CBD-THC_EH4112</td>
+        <td>CBD-THC</td>
+        <td>10-12GW</td>
+        <td>EH4112</td>
+        <td>148522</td>
+        <td>7246</td>
+    </tr><tr>
+        <td>testis_10-12GW_CBD-THC_EH4142</td>
+        <td>CBD-THC</td>
+        <td>10-12GW</td>
+        <td>EH4142</td>
+        <td>757007</td>
+        <td>9531</td>
+    </tr><tr>
+        <td>testis_10-12GW_CBD-THC_EH4147</td>
+        <td>CBD-THC</td>
+        <td>10-12GW</td>
+        <td>EH4147</td>
+        <td>254686</td>
+        <td>8333</td>
+    </tr><tr>
+        <td>testis_10-12GW_CBD-THC_EH4155</td>
+        <td>CBD-THC</td>
+        <td>10-12GW</td>
+        <td>EH4155</td>
+        <td>431049</td>
+        <td>9007</td>
+    </tr><tr>
+        <td>testis_10-12GW_CBD_EH3840</td>
+        <td>CBD</td>
+        <td>10-12GW</td>
+        <td>EH3840</td>
+        <td>668452</td>
+        <td>9706</td>
+    </tr><tr>
+        <td>testis_10-12GW_CBD_EH4026</td>
+        <td>CBD</td>
+        <td>10-12GW</td>
+        <td>EH4026</td>
+        <td>485542</td>
+        <td>9602</td>
+    </tr><tr>
+        <td>testis_10-12GW_CBD_EH4072</td>
+        <td>CBD</td>
+        <td>10-12GW</td>
+        <td>EH4072</td>
+        <td>461337</td>
+        <td>9095</td>
+    </tr><tr>
+        <td>testis_10-12GW_CBD_EH4105</td>
+        <td>CBD</td>
+        <td>10-12GW</td>
+        <td>EH4105</td>
+        <td>399341</td>
+        <td>8651</td>
+    </tr><tr>
+        <td>testis_10-12GW_CBD_EH4111</td>
+        <td>CBD</td>
+        <td>10-12GW</td>
+        <td>EH4111</td>
+        <td>378945</td>
+        <td>8852</td>
+    </tr><tr>
+        <td>testis_10-12GW_CBD_EH4112</td>
+        <td>CBD</td>
+        <td>10-12GW</td>
+        <td>EH4112</td>
+        <td>458714</td>
+        <td>8990</td>
+    </tr><tr>
+        <td>testis_10-12GW_CBD_EH4138</td>
+        <td>CBD</td>
+        <td>10-12GW</td>
+        <td>EH4138</td>
+        <td>467377</td>
+        <td>8858</td>
+    </tr><tr>
+        <td>testis_10-12GW_CBD_EH4142</td>
+        <td>CBD</td>
+        <td>10-12GW</td>
+        <td>EH4142</td>
+        <td>476584</td>
+        <td>9048</td>
+    </tr><tr>
+        <td>testis_10-12GW_CBD_EH4155</td>
+        <td>CBD</td>
+        <td>10-12GW</td>
+        <td>EH4155</td>
+        <td>284458</td>
+        <td>8620</td>
+    </tr><tr>
+        <td>testis_10-12GW_CBD_EH4174</td>
+        <td>CBD</td>
+        <td>10-12GW</td>
+        <td>EH4174</td>
+        <td>416560</td>
+        <td>8796</td>
+    </tr><tr>
+        <td>testis_10-12GW_Ctrl_DMSO-EtOH_EH3417</td>
+        <td>DMSO-EtOH</td>
+        <td>10-12GW</td>
+        <td>EH3417</td>
+        <td>237320</td>
+        <td>9049</td>
+    </tr><tr><td colspan="6"><em>... y 96 muestras más</em></td></tr></table>
+        <h2>🔧 Filtrado de Genes</h2>
+        <div class="metric-box">
+            <h3>Resumen del Filtrado</h3>
+            <table>
+                <tr>
+                    <th>Criterio</th>
+                    <th>Número de Genes</th>
+                    <th>Porcentaje</th>
+                </tr><tr>
+        <td>Total genes</td>
+        <td>28307</td>
+        <td>100%</td>
+    </tr><tr>
+        <td>Mediana > 0</td>
+        <td>9978</td>
+        <td>35.25%</td>
+    </tr><tr>
+        <td>Genes finales</td>
+        <td>9978</td>
+        <td>35.25%</td>
+    </tr></table>
+        </div>
+        <h2>📊 Control de Calidad</h2>
+        <div class="comparison-section">
+            <h3>Gráficos de QC</h3>
+            <p>
+                <a href="QC/01_histogram_expression.png" class="link-button" target="_blank">📈 Histograma de Expresión</a>
+                <a href="QC/02_boxplot_expression.png" class="link-button" target="_blank">📦 Boxplot de Expresión</a>
+                <a href="QC/03_library_size.png" class="link-button" target="_blank">📚 Library Size</a>
+                <a href="QC/04_PCA_condition.png" class="link-button" target="_blank">🔍 PCA</a>
+                <a href="QC/06_heatmap_correlation.png" class="link-button" target="_blank">🔥 Heatmap Correlación</a>
+            </p>
+        </div>
+        <h2>🧬 Genes Diferencialmente Expresados (DEGs)</h2>
+        <div class="metric-box">
+            <h3>Resumen de Comparaciones</h3>
+            <table>
+                <tr>
+                    <th>Comparación</th>
+                    <th>Total DEGs</th>
+                    <th>Up-regulated</th>
+                    <th>Down-regulated</th>
+                </tr><tr>
+        <td>EtOH_vs_Control_10-12GW</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+    </tr><tr>
+        <td>DMSO-EtOH_vs_Control_10-12GW</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+    </tr><tr>
+        <td>CBD_vs_Control_10-12GW</td>
+        <td>3</td>
+        <td>3</td>
+        <td>0</td>
+    </tr><tr>
+        <td>THC_vs_Control_10-12GW</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+    </tr><tr>
+        <td>CBD-THC_vs_Control_10-12GW</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+    </tr><tr>
+        <td>EtOH_vs_Control_12-14GW</td>
+        <td>29</td>
+        <td>29</td>
+        <td>0</td>
+    </tr><tr>
+        <td>DMSO-EtOH_vs_Control_12-14GW</td>
+        <td>30</td>
+        <td>30</td>
+        <td>0</td>
+    </tr><tr>
+        <td>CBD_vs_Control_12-14GW</td>
+        <td>18</td>
+        <td>18</td>
+        <td>0</td>
+    </tr><tr>
+        <td>THC_vs_Control_12-14GW</td>
+        <td>83</td>
+        <td>83</td>
+        <td>0</td>
+    </tr><tr>
+        <td>CBD-THC_vs_Control_12-14GW</td>
+        <td>94</td>
+        <td>94</td>
+        <td>0</td>
+    </tr></table>
+        </div>
+        <div class="highlight-box">
+            <h3>Métodos de Análisis</h3>
+            <ul>
+                <li><strong>Método del Paper:</strong> Paired t-test con FC ≥ 1.3 y BH adj p ≤ 0.05</li>
+                <li><strong>Método DESeq2:</strong> Diseño pareado (~ Donor + Condition) con FC ≥ 1.3 y padj ≤ 0.05</li>
+                <li><strong>Normalización:</strong> rlog (DESeq2) según paper</li>
+                <li><strong>Filtrado:</strong> Genes con mediana de expresión > 0</li>
+            </ul>
+        </div>
+        <h2>📁 Archivos Generados</h2>
+        <div class="section">
+            <h3>Estructura de Directorios</h3>
+            <ul>
+                <li><strong>QC/</strong> - Análisis de calidad y gráficos
+                    <ul>
+                        <li>Histogramas, boxplots, library size</li>
+                        <li>Análisis PCA</li>
+                        <li>Heatmaps de correlación</li>
+                        <li>Métricas de QC</li>
+                    </ul>
+                </li>
+                <li><strong>DEGs/</strong> - Resultados de expresión diferencial
+                    <ul>
+                        <li>Volcano plots, MA-plots, Heatmaps</li>
+                        <li>Tablas de DEGs (TSV)</li>
+                        <li>Listas de genes up/down-regulated</li>
+                        <li>Resultados completos del análisis</li>
+                    </ul>
+                </li>
+                <li><strong>Archivos RData/</strong> - Objetos R guardados
+                    <ul>
+                        <li>Datos crudos y normalizados</li>
+                        <li>Objetos de QC y DEGs</li>
+                        <li>Phenodata y anotaciones</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <div class="timestamp">
+            <p><strong>✅ Análisis completado exitosamente</strong></p>
+            <p>Fecha: 2025-11-14 | Hora: 08:05:41</p>
+            <p>Para más detalles, consulta los archivos en los directorios correspondientes.</p>
+        </div>
+    </div>
+</body>
+</html>

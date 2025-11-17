@@ -1,9 +1,0 @@
-"Criterio","Numero","Porcentaje"
-"Total genes iniciales",58735,100
-"Expresión promedio > threshold (percentil 10)",32452,55.3
-"Expresión > threshold en ≥50% muestras",22446,38.2
-"Pasan filtro de expresión (ambos criterios)",22446,38.2
-"Varianza > threshold (quantil 0.25)",32452,55.3
-"Genes expresados (al menos 1 muestra)",32452,55.3
-"Pasan TODOS los filtros",22446,38.2
-"Genes eliminados",36289,61.8
