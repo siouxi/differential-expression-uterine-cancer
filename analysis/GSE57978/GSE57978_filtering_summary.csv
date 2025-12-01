@@ -1,6 +1,0 @@
-"Criterio","Numero","Porcentaje"
-"Total genes",19998,100
-"Expresión > background (≥50% muestras)",19102,95.5
-"Varianza > quantil 0.2",15998,80
-"Pasan ambos filtros",15460,77.3
-"Eliminados",4538,22.7

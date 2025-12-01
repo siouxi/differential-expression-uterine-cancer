@@ -1,0 +1,6 @@
+contrast	total_genes	significant	upregulated	downregulated
+EtOH vs DMSO	9562	407	51	356
+DMSO-EtOH vs DMSO	9562	1145	271	874
+CBD vs DMSO	9562	381	67	314
+THC vs DMSO	9562	843	239	604
+CBD-THC vs DMSO	9562	1109	310	799

@@ -1,0 +1,6 @@
+contrast	total_genes	significant	upregulated	downregulated
+CBD-THC vs DMSO (TSV)	9562	1109	310	799
+CBD vs DMSO (TSV)	9562	381	67	314
+DMSO-EtOH vs DMSO (TSV)	9562	1145	271	874
+EtOH vs DMSO (TSV)	9562	407	51	356
+THC vs DMSO (TSV)	9562	843	239	604

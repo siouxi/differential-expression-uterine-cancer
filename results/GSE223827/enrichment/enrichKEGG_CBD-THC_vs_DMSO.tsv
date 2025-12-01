@@ -1,0 +1,2 @@
+category	subcategory	ID	Description	GeneRatio	BgRatio	pvalue	p.adjust	qvalue	geneID	Count
+Metabolism	Lipid metabolism	hsa00100	Steroid biosynthesis	11/586	16/4257	6.987099215067562e-7	2.214910451176417e-4	2.2064523837055458e-4	6307/10682/1595/6713/2222/1717/1718/3988/6646/7108/50814	11
