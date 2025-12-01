@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagrama de Venn Interactivo - Análisis de Expresión Diferencial</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .controls {
+            padding: 30px;
+            background: #f8f9fa;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        .control-section {
+            margin-bottom: 25px;
+        }
+
+        .control-section h3 {
+            color: #495057;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .control-section h3::before {
+            content: "▶";
+            color: #667eea;
+        }
+
+        .file-inputs {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .file-input-group {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            border: 2px solid #e9ecef;
+            transition: all 0.3s ease;
+        }
+
+        .file-input-group:hover {
+            border-color: #667eea;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.1);
+        }
+
+        .file-input-group label {
+            display: block;
+            font-weight: 600;
+            color: #495057;
+            margin-bottom: 8px;
+        }
+
+        .file-input-group input[type="file"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            font-size: 0.9em;
+        }
+
+        .file-input-group input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            margin-top: 5px;
+            font-size: 0.9em;
+        }
+
+        .filter-controls {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            border: 2px solid #e9ecef;
+        }
+
+        .filter-group label {
+            font-weight: 600;
+            color: #495057;
+        }
+
+        .filter-group select {
+            padding: 8px 12px;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            font-size: 1em;
+            cursor: pointer;
+            background: white;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 15px;
+            background: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            border: 2px solid #e9ecef;
+        }
+
+        .radio-group label {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+            font-weight: 500;
+            color: #495057;
+        }
+
+        .radio-group input[type="radio"] {
+            cursor: pointer;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        .venn-container {
+            padding: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 500px;
+            background: #f8f9fa;
+        }
+
+        #vennDiagram {
+            position: relative;
+            width: 600px;
+            height: 500px;
+        }
+
+        .circle {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.6;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .circle:hover {
+            opacity: 0.8;
+            transform: scale(1.05);
+        }
+
+        .intersection-label {
+            position: absolute;
+            font-weight: bold;
+            cursor: pointer;
+            padding: 5px 10px;
+            background: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .intersection-label:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .results-container {
+            padding: 30px;
+        }
+
+        .results-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .results-header h2 {
+            font-size: 1.8em;
+            margin-bottom: 10px;
+        }
+
+        .results-stats {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .stat-box {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 10px 20px;
+            border-radius: 8px;
+            backdrop-filter: blur(10px);
+        }
+
+        .stat-box strong {
+            display: block;
+            font-size: 1.5em;
+        }
+
+        .gene-list {
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 20px;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
+        .gene-list h3 {
+            color: #495057;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #667eea;
+        }
+
+        .gene-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .gene-table th {
+            background: #667eea;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .gene-table td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .gene-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .regulation-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+
+        .up-regulated {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .down-regulated {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .export-btn {
+            margin-top: 15px;
+            background: #28a745;
+            color: white;
+        }
+
+        .export-btn:hover {
+            background: #218838;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #6c757d;
+        }
+
+        .empty-state svg {
+            width: 100px;
+            height: 100px;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧬 Diagrama de Venn Interactivo</h1>
+            <p>Análisis de Expresión Diferencial de Genes</p>
+        </div>
+
+        <div class="controls">
+            <div class="control-section">
+                <h3>Cargar Datasets (Máximo 6)</h3>
+                <div class="file-inputs" id="fileInputs">
+                    <!-- File inputs will be generated here -->
+                </div>
+            </div>
+
+            <div class="control-section">
+                <h3>Configuración de Análisis</h3>
+                <div class="filter-controls">
+                    <div class="filter-group">
+                        <label for="idType">Tipo de ID:</label>
+                        <select id="idType">
+                            <option value="Entrez_ID" selected>Entrez ID</option>
+                            <option value="Ensembl_ID">Ensembl ID</option>
+                            <option value="Gene_Symbol">Gene Symbol</option>
+                        </select>
+                    </div>
+
+                    <div class="radio-group">
+                        <label>
+                            <input type="radio" name="regulation" value="all" checked>
+                            Todos los genes
+                        </label>
+                        <label>
+                            <input type="radio" name="regulation" value="up">
+                            Solo Up-regulados
+                        </label>
+                        <label>
+                            <input type="radio" name="regulation" value="down">
+                            Solo Down-regulados
+                        </label>
+                    </div>
+
+                    <button class="btn btn-primary" onclick="generateVennDiagram()">
+                        Generar Diagrama
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="venn-container">
+            <div id="vennDiagram">
+                <div class="empty-state">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <circle cx="12" cy="12" r="10" stroke-width="2" />
+                        <path d="M12 6v6l4 2" stroke-width="2" />
+                    </svg>
+                    <h3>Carga tus datasets para comenzar</h3>
+                    <p>Selecciona hasta 6 archivos CSV estandarizados</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="results-container" id="resultsContainer" style="display: none;">
+            <div class="results-header">
+                <h2 id="resultsTitle">Resultados de Intersección</h2>
+                <div class="results-stats" id="resultsStats"></div>
+            </div>
+            <div class="gene-list">
+                <h3>Lista de Genes</h3>
+                <div id="geneListContent"></div>
+                <button class="btn export-btn" onclick="exportToCSV()">
+                    📥 Exportar a CSV
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let datasets = [];
+        let currentIntersection = null;
+
+        // Initialize file inputs
+        function initFileInputs() {
+            const container = document.getElementById('fileInputs');
+            for (let i = 0; i < 6; i++) {
+                const div = document.createElement('div');
+                div.className = 'file-input-group';
+                div.innerHTML = `
+                    <label>Dataset ${i + 1}</label>
+                    <input type="file" accept=".csv" onchange="loadFile(${i}, this)" />
+                    <input type="text" placeholder="Nombre del dataset" id="datasetName${i}" />
+                `;
+                container.appendChild(div);
+            }
+        }
+
+        // Load CSV file
+        function loadFile(index, input) {
+            const file = input.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const content = e.target.result;
+                const lines = content.split('\n').filter(line => line.trim());
+                const headers = lines[0].split(',').map(h => h.trim());
+
+                const data = [];
+                for (let i = 1; i < lines.length; i++) {
+                    const values = lines[i].split(',');
+                    if (values.length >= headers.length) {
+                        const row = {};
+                        headers.forEach((header, idx) => {
+                            row[header] = values[idx]?.trim();
+                        });
+                        data.push(row);
+                    }
+                }
+
+                const nameInput = document.getElementById(`datasetName${index}`);
+                const datasetName = nameInput.value || file.name.replace('.csv', '');
+                nameInput.value = datasetName;
+
+                datasets[index] = {
+                    name: datasetName,
+                    data: data,
+                    headers: headers
+                };
+
+                console.log(`Loaded dataset ${index}:`, datasetName, data.length, 'genes');
+            };
+            reader.readAsText(file);
+        }
+
+        // Get genes based on filters - IMPROVED: Ignores rows without ID
+        function getFilteredGenes(dataset, idType, regulation) {
+            if (!dataset || !dataset.data) return new Set();
+
+            const logFCColumn = dataset.headers.find(h =>
+                h.includes('log2FoldChange') || h.includes('logFC')
+            );
+
+            return new Set(
+                dataset.data
+                    .filter(row => {
+                        // CRITICAL: Ignore rows without the selected ID
+                        const idValue = row[idType];
+                        if (!idValue || idValue === '' || idValue === 'NA' || idValue === 'null') {
+                            return false;
+                        }
+
+                        if (regulation === 'all') return true;
+
+                        if (logFCColumn && row[logFCColumn]) {
+                            const logFC = parseFloat(row[logFCColumn]);
+                            if (isNaN(logFC)) return false;
+                            if (regulation === 'up') return logFC > 0;
+                            if (regulation === 'down') return logFC < 0;
+                        }
+                        return false;
+                    })
+                    .map(row => row[idType])
+            );
+        }
+
+        // Calculate intersections
+        function calculateIntersections(geneSets) {
+            const intersections = {};
+            const n = geneSets.length;
+
+            // Generate all possible combinations
+            for (let i = 1; i < Math.pow(2, n); i++) {
+                const combination = [];
+                const indices = [];
+
+                for (let j = 0; j < n; j++) {
+                    if (i & (1 << j)) {
+                        combination.push(geneSets[j]);
+                        indices.push(j);
+                    }
+                }
+
+                // Calculate intersection
+                let intersection = new Set(combination[0]);
+                for (let k = 1; k < combination.length; k++) {
+                    intersection = new Set([...intersection].filter(x => combination[k].has(x)));
+                }
+
+                // Remove genes that appear in other sets (exclusive intersection)
+                for (let j = 0; j < n; j++) {
+                    if (!indices.includes(j)) {
+                        intersection = new Set([...intersection].filter(x => !geneSets[j].has(x)));
+                    }
+                }
+
+                intersections[indices.join(',')] = intersection;
+            }
+
+            return intersections;
+        }
+
+        // Generate Venn Diagram
+        function generateVennDiagram() {
+            const activeDatasets = datasets.filter(d => d !== undefined);
+            if (activeDatasets.length < 2) {
+                alert('Por favor carga al menos 2 datasets');
+                return;
+            }
+            if (activeDatasets.length > 6) {
+                alert('Máximo 6 datasets permitidos');
+                return;
+            }
+
+            const idType = document.getElementById('idType').value;
+            const regulation = document.querySelector('input[name="regulation"]:checked').value;
+
+            const geneSets = activeDatasets.map(ds => getFilteredGenes(ds, idType, regulation));
+
+            // Log statistics
+            console.log('Gene sets sizes:', geneSets.map((s, i) => `${activeDatasets[i].name}: ${s.size}`));
+
+            const intersections = calculateIntersections(geneSets);
+
+            drawVennDiagram(activeDatasets, geneSets, intersections);
+        }
+
+        // Draw Venn Diagram
+        function drawVennDiagram(activeDatasets, geneSets, intersections) {
+            const container = document.getElementById('vennDiagram');
+            container.innerHTML = '';
+
+            const n = activeDatasets.length;
+            const colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#FFA07A', '#96CEB4', '#FFEAA7'];
+
+            if (n === 2) {
+                drawTwoCircles(container, activeDatasets, geneSets, intersections, colors);
+            } else if (n === 3) {
+                drawThreeCircles(container, activeDatasets, geneSets, intersections, colors);
+            } else if (n === 4) {
+                drawFourCircles(container, activeDatasets, geneSets, intersections, colors);
+            } else {
+                // For 5 or 6 datasets, show a simple list view
+                drawListView(container, activeDatasets, geneSets, intersections);
+            }
+        }
+
+        // Draw 2 circles
+        function drawTwoCircles(container, datasets, geneSets, intersections, colors) {
+            const positions = [
+                { left: '100px', top: '150px' },
+                { left: '300px', top: '150px' }
+            ];
+
+            positions.forEach((pos, i) => {
+                const circle = document.createElement('div');
+                circle.className = 'circle';
+                circle.style.width = '300px';
+                circle.style.height = '300px';
+                circle.style.left = pos.left;
+                circle.style.top = pos.top;
+                circle.style.backgroundColor = colors[i];
+                circle.innerHTML = `<div style="margin-top: -100px;">${datasets[i].name}</div>`;
+                container.appendChild(circle);
+            });
+
+            // Labels
+            addLabel(container, '50px', '50px', intersections['0'].size, '0', datasets, geneSets);
+            addLabel(container, '250px', '50px', intersections['0,1'].size, '0,1', datasets, geneSets);
+            addLabel(container, '450px', '50px', intersections['1'].size, '1', datasets, geneSets);
+        }
+
+        // Draw 3 circles
+        function drawThreeCircles(container, datasets, geneSets, intersections, colors) {
+            const positions = [
+                { left: '200px', top: '100px' },
+                { left: '100px', top: '250px' },
+                { left: '300px', top: '250px' }
+            ];
+
+            positions.forEach((pos, i) => {
+                const circle = document.createElement('div');
+                circle.className = 'circle';
+                circle.style.width = '250px';
+                circle.style.height = '250px';
+                circle.style.left = pos.left;
+                circle.style.top = pos.top;
+                circle.style.backgroundColor = colors[i];
+                container.appendChild(circle);
+            });
+
+            // Labels
+            addLabel(container, '280px', '50px', intersections['0'].size, '0', datasets, geneSets);
+            addLabel(container, '100px', '400px', intersections['1'].size, '1', datasets, geneSets);
+            addLabel(container, '450px', '400px', intersections['2'].size, '2', datasets, geneSets);
+            addLabel(container, '220px', '200px', intersections['0,1'].size, '0,1', datasets, geneSets);
+            addLabel(container, '350px', '200px', intersections['0,2'].size, '0,2', datasets, geneSets);
+            addLabel(container, '280px', '320px', intersections['1,2'].size, '1,2', datasets, geneSets);
+            addLabel(container, '280px', '250px', intersections['0,1,2'].size, '0,1,2', datasets, geneSets);
+        }
+
+        // Draw 4 circles (ellipses)
+        function drawFourCircles(container, datasets, geneSets, intersections, colors) {
+            const positions = [
+                { left: '150px', top: '100px', rotate: '45deg' },
+                { left: '300px', top: '100px', rotate: '-45deg' },
+                { left: '150px', top: '250px', rotate: '-45deg' },
+                { left: '300px', top: '250px', rotate: '45deg' }
+            ];
+
+            positions.forEach((pos, i) => {
+                const circle = document.createElement('div');
+                circle.className = 'circle';
+                circle.style.width = '280px';
+                circle.style.height = '200px';
+                circle.style.left = pos.left;
+                circle.style.top = pos.top;
+                circle.style.backgroundColor = colors[i];
+                circle.style.transform = `rotate(${pos.rotate})`;
+                container.appendChild(circle);
+            });
+
+            // Add labels for all intersections
+            const labelPositions = {
+                '0': { left: '50px', top: '50px' },
+                '1': { left: '500px', top: '50px' },
+                '2': { left: '50px', top: '450px' },
+                '3': { left: '500px', top: '450px' },
+                '0,1': { left: '280px', top: '80px' },
+                '0,2': { left: '150px', top: '280px' },
+                '1,3': { left: '450px', top: '280px' },
+                '2,3': { left: '280px', top: '420px' },
+                '0,1,2,3': { left: '280px', top: '250px' }
+            };
+
+            Object.keys(intersections).forEach(key => {
+                const pos = labelPositions[key];
+                if (pos) {
+                    addLabel(container, pos.left, pos.top, intersections[key].size, key, datasets, geneSets);
+                }
+            });
+        }
+
+        // Draw list view for 5+ datasets
+        function drawListView(container, datasets, geneSets, intersections) {
+            container.innerHTML = '<div style="padding: 20px; text-align: center;"><h3>Intersecciones disponibles</h3><p>Haz click en cualquier intersección para ver los genes</p></div>';
+
+            const listDiv = document.createElement('div');
+            listDiv.style.cssText = 'display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; padding: 20px;';
+
+            Object.keys(intersections).forEach(key => {
+                const indices = key.split(',').map(Number);
+                const names = indices.map(i => datasets[i].name).join(' ∩ ');
+                const count = intersections[key].size;
+
+                const btn = document.createElement('button');
+                btn.className = 'btn';
+                btn.style.cssText = 'padding: 15px; background: #667eea; color: white; cursor: pointer;';
+                btn.innerHTML = `<strong>${names}</strong><br>${count} genes`;
+                btn.onclick = () => showIntersection(key, datasets, geneSets);
+                listDiv.appendChild(btn);
+            });
+
+            container.appendChild(listDiv);
+        }
+
+        // Add intersection label
+        function addLabel(container, left, top, count, indices, datasets, geneSets) {
+            const label = document.createElement('div');
+            label.className = 'intersection-label';
+            label.style.left = left;
+            label.style.top = top;
+            label.textContent = count;
+            label.onclick = () => showIntersection(indices, datasets, geneSets);
+            container.appendChild(label);
+        }
+
+        // Show intersection details
+        function showIntersection(indices, datasets, geneSets) {
+            const idType = document.getElementById('idType').value;
+            const regulation = document.querySelector('input[name="regulation"]:checked').value;
+
+            const indexArray = indices.split(',').map(Number);
+            const activeDatasets = datasets.filter((_, i) => indexArray.includes(i));
+            const activeSets = geneSets.filter((_, i) => indexArray.includes(i));
+
+            // Calculate intersection
+            let intersection = new Set(activeSets[0]);
+            for (let i = 1; i < activeSets.length; i++) {
+                intersection = new Set([...intersection].filter(x => activeSets[i].has(x)));
+            }
+
+            // Remove genes from other sets
+            geneSets.forEach((set, i) => {
+                if (!indexArray.includes(i)) {
+                    intersection = new Set([...intersection].filter(x => !set.has(x)));
+                }
+            });
+
+            currentIntersection = {
+                genes: [...intersection],
+                datasets: activeDatasets,
+                idType: idType,
+                regulation: regulation
+            };
+
+            displayResults();
+        }
+
+        // Display results
+        function displayResults() {
+            if (!currentIntersection) return;
+
+            const container = document.getElementById('resultsContainer');
+            const title = document.getElementById('resultsTitle');
+            const stats = document.getElementById('resultsStats');
+            const content = document.getElementById('geneListContent');
+
+            const { genes, datasets, idType, regulation } = currentIntersection;
+
+            // Update title
+            const datasetNames = datasets.map(d => d.name).join(' ∩ ');
+            title.textContent = `Intersección: ${datasetNames}`;
+
+            // Update stats
+            const upCount = genes.filter(geneId => {
+                return datasets.some(ds => {
+                    const gene = ds.data.find(row => row[idType] === geneId);
+                    if (gene) {
+                        const logFCCol = ds.headers.find(h => h.includes('log2FoldChange') || h.includes('logFC'));
+                        return logFCCol && parseFloat(gene[logFCCol]) > 0;
+                    }
+                    return false;
+                });
+            }).length;
+
+            const downCount = genes.length - upCount;
+
+            stats.innerHTML = `
+                <div class="stat-box">
+                    <strong>${genes.length}</strong>
+                    <span>Total Genes</span>
+                </div>
+                <div class="stat-box">
+                    <strong>${upCount}</strong>
+                    <span>Up-regulados</span>
+                </div>
+                <div class="stat-box">
+                    <strong>${downCount}</strong>
+                    <span>Down-regulados</span>
+                </div>
+            `;
+
+            // Create table
+            let tableHTML = `
+                <table class="gene-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>${idType}</th>
+                            ${datasets.map(d => `<th>${d.name} (logFC)</th>`).join('')}
+                            <th>Regulación</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+
+            genes.forEach((geneId, index) => {
+                const logFCs = datasets.map(ds => {
+                    const gene = ds.data.find(row => row[idType] === geneId);
+                    if (gene) {
+                        const logFCCol = ds.headers.find(h => h.includes('log2FoldChange') || h.includes('logFC'));
+                        return logFCCol ? parseFloat(gene[logFCCol]).toFixed(3) : 'N/A';
+                    }
+                    return 'N/A';
+                });
+
+                const avgLogFC = logFCs.reduce((sum, val) => sum + (val !== 'N/A' ? parseFloat(val) : 0), 0) / logFCs.filter(v => v !== 'N/A').length;
+                const regulation = avgLogFC > 0 ? 'up-regulated' : 'down-regulated';
+                const regulationText = avgLogFC > 0 ? 'Up' : 'Down';
+
+                tableHTML += `
+                    <tr>
+                        <td>${index + 1}</td>
+                        <td><strong>${geneId}</strong></td>
+                        ${logFCs.map(lfc => `<td>${lfc}</td>`).join('')}
+                        <td><span class="regulation-badge ${regulation}">${regulationText}</span></td>
+                    </tr>
+                `;
+            });
+
+            tableHTML += '</tbody></table>';
+            content.innerHTML = tableHTML;
+
+            container.style.display = 'block';
+            container.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Export to CSV
+        function exportToCSV() {
+            if (!currentIntersection) return;
+
+            const { genes, datasets, idType } = currentIntersection;
+
+            let csv = `${idType},${datasets.map(d => d.name + '_logFC').join(',')},Regulation\n`;
+
+            genes.forEach(geneId => {
+                const logFCs = datasets.map(ds => {
+                    const gene = ds.data.find(row => row[idType] === geneId);
+                    if (gene) {
+                        const logFCCol = ds.headers.find(h => h.includes('log2FoldChange') || h.includes('logFC'));
+                        return logFCCol ? parseFloat(gene[logFCCol]).toFixed(3) : 'N/A';
+                    }
+                    return 'N/A';
+                });
+
+                const avgLogFC = logFCs.reduce((sum, val) => sum + (val !== 'N/A' ? parseFloat(val) : 0), 0) / logFCs.filter(v => v !== 'N/A').length;
+                const regulation = avgLogFC > 0 ? 'Up' : 'Down';
+
+                csv += `${geneId},${logFCs.join(',')},${regulation}\n`;
+            });
+
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `intersection_${Date.now()}.csv`;
+            a.click();
+        }
+
+        // Initialize on load
+        window.onload = initFileInputs;
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,23 @@
+--- Checking local file ---
+Found ID 3 in local file: False
+Found ID 7 in local file: False
+
+--- Querying MyGene for symbols A2M, AATK ---
+[
+  {
+    "query": "A2M",
+    "_id": "2",
+    "_score": 19.404137,
+    "entrezgene": "2",
+    "name": "alpha-2-macroglobulin",
+    "taxid": 9606
+  },
+  {
+    "query": "AATK",
+    "_id": "9625",
+    "_score": 18.24357,
+    "entrezgene": "9625",
+    "name": "apoptosis associated tyrosine kinase",
+    "taxid": 9606
+  }
+]
