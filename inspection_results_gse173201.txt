@@ -1,0 +1,12 @@
+--- FILE: results/GSE173201/deseq2/DEGs_A2780_Cisplatino_vs_Control_FDR0.05_log2FC1.csv ---
+COLUMNS: ['Unnamed: 0', 'baseMean', 'log2FoldChange', 'lfcSE', 'stat', 'pvalue', 'padj']
+FIRST ROW: {'Unnamed: 0': 400728.0, 'baseMean': 13.9189781910534, 'log2FoldChange': 1.35846178697028, 'lfcSE': 0.427497322710154, 'stat': 3.17770829150041, 'pvalue': 0.0014844402064585, 'padj': 0.0045528304328008}
+------------------------------
+--- FILE: results/GSE173201/deseq2/DEGs_A2780cis_Cisplatino_vs_A2780cis_Control_FDR0.05_log2FC1.csv ---
+COLUMNS: ['Unnamed: 0', 'baseMean', 'log2FoldChange', 'lfcSE', 'stat', 'pvalue', 'padj']
+FIRST ROW: {'Unnamed: 0': 105378580.0, 'baseMean': 27.0113628210101, 'log2FoldChange': 1.07720042744854, 'lfcSE': 0.313711066972803, 'stat': 3.43373422507256, 'pvalue': 0.0005953276071209, 'padj': 0.0054969029630551}
+------------------------------
+--- FILE: results/GSE173201/deseq2/DEGs_A2780cis_Control_vs_A2780_Control_FDR0.05_log2FC1.csv ---
+COLUMNS: ['Unnamed: 0', 'baseMean', 'log2FoldChange', 'lfcSE', 'stat', 'pvalue', 'padj']
+FIRST ROW: {'Unnamed: 0': 284600.0, 'baseMean': 117.375198295918, 'log2FoldChange': 1.21483847685731, 'lfcSE': 0.170032878352165, 'stat': 7.14472688241616, 'pvalue': 9.01750013899811e-13, 'padj': 5.35201144993295e-12}
+------------------------------

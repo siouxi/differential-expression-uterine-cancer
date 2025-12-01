@@ -1,0 +1,15 @@
+--- FILE: results/GSE285498/degs/CBD_vs_Eto_DEGs_FDR0.05_logFC1.tsv ---
+COLUMNS: ['logFC', 'AveExpr', 't', 'P.Value', 'adj.P.Val', 'B', 'ENSEMBL', 'contrast', 'direction']
+FIRST ROW: {'logFC': 3.55117138771209, 'AveExpr': 3.2445251877376435, 't': 20.344063275317552, 'P.Value': 4.797094548370285e-10, 'adj.P.Val': 2.532205999741488e-06, 'B': 13.295093570317494, 'ENSEMBL': 'ENSG00000157456', 'contrast': 'CBD_vs_Eto', 'direction': 'Up'}
+------------------------------
+--- FILE: results/GSE285498/degs/CBD_vs_Mock_DEGs_FDR0.05_logFC1.tsv ---
+COLUMNS: ['logFC', 'AveExpr', 't', 'P.Value', 'adj.P.Val', 'B', 'ENSEMBL', 'contrast', 'direction']
+Error reading results/GSE285498/degs/CBD_vs_Mock_DEGs_FDR0.05_logFC1.tsv: single positional indexer is out-of-bounds
+--- FILE: results/GSE285498/degs/Eto_vs_Mock_DEGs_FDR0.05_logFC1.tsv ---
+COLUMNS: ['logFC', 'AveExpr', 't', 'P.Value', 'adj.P.Val', 'B', 'ENSEMBL', 'contrast', 'direction']
+FIRST ROW: {'logFC': -4.094112202408499, 'AveExpr': 4.587529551673607, 't': -22.852401025473103, 'P.Value': 1.3805126638843732e-10, 'adj.P.Val': 7.578868395030229e-07, 'B': 14.57585705935578, 'ENSEMBL': 'ENSG00000131747', 'contrast': 'Eto_vs_Mock', 'direction': 'Down'}
+------------------------------
+--- FILE: results/GSE285498/degs/Merge_vs_Mock_DEGs_FDR0.05_logFC1.tsv ---
+COLUMNS: ['logFC', 'AveExpr', 't', 'P.Value', 'adj.P.Val', 'B', 'ENSEMBL', 'contrast', 'direction']
+FIRST ROW: {'logFC': -4.031164720364019, 'AveExpr': 4.587529551673607, 't': -22.501042530125083, 'P.Value': 1.6303451045254336e-10, 'adj.P.Val': 9.132947434148784e-07, 'B': 14.417509406409394, 'ENSEMBL': 'ENSG00000131747', 'contrast': 'Merge_vs_Mock', 'direction': 'Down'}
+------------------------------

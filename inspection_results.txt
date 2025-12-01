@@ -1,0 +1,12 @@
+--- FILE: results/DEGS_ANGELICA/GSE21656_DEGS_significativos.xlsx ---
+COLUMNS: ['Gene', 'logFC', 'AveExpr', 't', 'P.Value', 'adj.P.Val', 'B']
+FIRST ROW: {'Gene': 'SLFN11', 'logFC': -3.808485, 'AveExpr': 5.723829166666667, 't': -47.27201521912998, 'P.Value': 5.704937067368355e-13, 'adj.P.Val': 8.767053951515198e-09, 'B': 18.79743964777495}
+------------------------------
+--- FILE: results/DEGS_ANGELICA/GSE102787_DEGS_Significativos.xlsx ---
+COLUMNS: ['Gene', 'logFC', 'AveExpr', 't', 'P.Value', 'adj.P.Val', 'B']
+FIRST ROW: {'Gene': 'PDE9A', 'logFC': 2.296738292857142, 'AveExpr': -0.3483192555555555, 't': 8.989449727449928, 'P.Value': 4.76421280868431e-08, 'adj.P.Val': 0.0007225405763314088, 'B': 8.223796962875488}
+------------------------------
+--- FILE: results/DEGS_ANGELICA/GSE197561_DEGS_significativos.xlsx ---
+COLUMNS: ['Gene', 'logFC', 'AveExpr', 't', 'P.Value', 'adj.P.Val', 'B']
+FIRST ROW: {'Gene': 'LYPD5', 'logFC': 4.914190333333332, 'AveExpr': 9.6167315, 't': 38.28670644994943, 'P.Value': 1.400425554878557e-10, 'adj.P.Val': 3.779748572617224e-06, 'B': 12.48249501190386}
+------------------------------

@@ -1,0 +1,20 @@
+--- FILE: results/GSE223827/deg/DESeq2_CBD_vs_DMSO.tsv ---
+COLUMNS: ['gene_id', 'baseMean', 'log2FoldChange', 'lfcSE', 'stat', 'pvalue', 'padj']
+FIRST ROW: {'gene_id': 'MT1X', 'baseMean': 33.18245717354453, 'log2FoldChange': 1.8677538234229605, 'lfcSE': 0.1653953166513667, 'stat': 11.292664515767148, 'pvalue': 1.426456650800233e-29, 'padj': 6.500362957696661e-26}
+------------------------------
+--- FILE: results/GSE223827/deg/DESeq2_CBD-THC_vs_DMSO.tsv ---
+COLUMNS: ['gene_id', 'baseMean', 'log2FoldChange', 'lfcSE', 'stat', 'pvalue', 'padj']
+FIRST ROW: {'gene_id': 'FTL', 'baseMean': 3064.782603274883, 'log2FoldChange': 0.9203432163597536, 'lfcSE': 0.0606878831133064, 'stat': 15.165188982476794, 'pvalue': 6.0125597754682854e-52, 'padj': 5.5261436896329e-48}
+------------------------------
+--- FILE: results/GSE223827/deg/DESeq2_DMSO-EtOH_vs_DMSO.tsv ---
+COLUMNS: ['gene_id', 'baseMean', 'log2FoldChange', 'lfcSE', 'stat', 'pvalue', 'padj']
+FIRST ROW: {'gene_id': 'MARCKS', 'baseMean': 117.78882256962652, 'log2FoldChange': -2.393726638549995, 'lfcSE': 0.2351478344972139, 'stat': -10.1796669472555, 'pvalue': 2.4439640102967804e-24, 'padj': 2.291460656054261e-20}
+------------------------------
+--- FILE: results/GSE223827/deg/DESeq2_EtOH_vs_DMSO.tsv ---
+COLUMNS: ['gene_id', 'baseMean', 'log2FoldChange', 'lfcSE', 'stat', 'pvalue', 'padj']
+FIRST ROW: {'gene_id': 'CCND2', 'baseMean': 215.1420828769206, 'log2FoldChange': -1.287479608885599, 'lfcSE': 0.220473384369932, 'stat': -5.839614666255309, 'pvalue': 5.232169512900365e-09, 'padj': 1.1169650744579204e-05}
+------------------------------
+--- FILE: results/GSE223827/deg/DESeq2_THC_vs_DMSO.tsv ---
+COLUMNS: ['gene_id', 'baseMean', 'log2FoldChange', 'lfcSE', 'stat', 'pvalue', 'padj']
+FIRST ROW: {'gene_id': 'FTL', 'baseMean': 3064.782603274883, 'log2FoldChange': 0.6150433951572911, 'lfcSE': 0.0600984998050026, 'stat': 10.233922596285751, 'pvalue': 1.3974188537723491e-24, 'padj': 9.475897247430301e-21}
+------------------------------

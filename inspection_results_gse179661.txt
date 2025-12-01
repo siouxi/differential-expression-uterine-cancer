@@ -1,0 +1,8 @@
+--- FILE: results/GSE179661/HepG2/deseq2/DESeq2_DEG_FDR0.05_log2FC2.tsv ---
+COLUMNS: ['gene_id', 'baseMean', 'log2FoldChange', 'lfcSE', 'pvalue', 'padj', 'entrez', 'symbol', 'ensgene', 'description']
+FIRST ROW: {'gene_id': 557.0, 'baseMean': 14827.711834927104, 'log2FoldChange': 7.15771144303883, 'lfcSE': 0.2296913221043748, 'pvalue': 2.4677214756686168e-214, 'padj': 4.138122142548704e-210, 'entrez': 557.0, 'symbol': nan, 'ensgene': nan, 'description': nan}
+------------------------------
+--- FILE: results/GSE179661/MHCC97H/deseq2/DESeq2_DEG_FDR0.05_log2FC2.tsv ---
+COLUMNS: ['gene_id', 'baseMean', 'log2FoldChange', 'lfcSE', 'pvalue', 'padj', 'entrez', 'symbol', 'ensgene', 'description']
+FIRST ROW: {'gene_id': 3, 'baseMean': 146391.69126744973, 'log2FoldChange': 3.040706848010927, 'lfcSE': 0.0629726146457076, 'pvalue': 0, 'padj': 0, 'entrez': 3, 'symbol': 'A2MP1', 'ensgene': 'ENSG00000291190', 'description': 'alpha-2-macroglobulin pseudogene 1'}
+------------------------------
